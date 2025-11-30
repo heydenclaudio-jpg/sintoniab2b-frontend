@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SintoniaB2B - Marketplace de Colaboraciones Empresariales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --ml-blue: #3483fa;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Header con color azul */
+        .ml-header {
+            background-color: var(--secondary-color);
+            padding: 10px 0;
+            border-bottom: 1px solid #2980b9;
+        }
+        
+        .search-container {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+        }
+        
+        .search-input {
+            border: none;
+            padding: 10px 15px;
+            width: 100%;
+            outline: none;
+        }
+        
+        .search-button {
+            background: var(--ml-blue);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .nav-categories {
+            background: white;
+            border-bottom: 1px solid #e6e6e6;
+            padding: 10px 0;
+        }
+        
+        .category-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+        
+        .category-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Espacios publicitarios */
+        .ad-space {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ad-label {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+        
+        .ad-space-sidebar {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Sistema de valorización */
+        .valuation-badge {
+            background: var(--success-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .valuation-widget {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .deal-history {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .deal-item {
+            padding: 10px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        
+        .deal-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Filtros mejorados */
+        .filters-sidebar {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        }
+        
+        .filter-section {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e6e6e6;
+            padding-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .comunas-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        
+        .comunas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .filter-checkbox {
+            margin-right: 8px;
+        }
+        
+        .selected-count {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: auto;
+        }
+        
+        /* Tarjetas de empresas */
+        .company-card-ml {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.1);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            position: relative;
+        }
+        
+        .company-card-ml:hover {
+            box-shadow: 0 7px 16px 0 rgba(0,0,0,.2);
+            border-color: var(--secondary-color);
+        }
+        
+        .company-image {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            object-fit: cover;
+        }
+        
+        .company-badge-ml {
+            background: var(--secondary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .company-title {
+            color: var(--secondary-color);
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .company-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .company-stats {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .contact-button-ml {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-button-ml:hover {
+            background: #2980b9;
+        }
+        
+        /* Banner promocional */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            color: white;
+            padding: 30px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Badges de estado */
+        .badge-new {
+            background: #00a650;
+            color: white;
+        }
+        
+        .badge-premium {
+            background: #ff7733;
+            color: white;
+        }
+        
+        .badge-featured {
+            background: #ffd500;
+            color: #333;
+        }
+        
+        /* Footer */
+        .ml-footer {
+            background: white;
+            border-top: 1px solid #e6e6e6;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        
+        .footer-section h6 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Paneles de usuario y administrador */
+        .user-panel, .admin-panel {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .admin-tabs {
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .admin-tab.active {
+            border-bottom-color: var(--secondary-color);
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .user-table th, .user-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .user-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* Formularios de autenticación */
+        .auth-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo-preview {
+            max-width: 150px;
+            max-height: 100px;
+            margin-top: 10px;
+            display: none;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        
+        /* Mensajes de estado */
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .company-image {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+            .comunas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="ml-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <a href="#" class="text-decoration-none">
+                        <h3 class="mb-0" style="color: white;">
+                            <i class="fas fa-handshake me-2"></i>
+                            <strong>SintoniaB2B</strong>
+                        </h3>
+                    </a>
+                </div>
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="search-container d-flex">
+                        <input type="text" class="search-input" placeholder="Buscar empresas, rubros, servicios...">
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 text-end">
+                    <div id="userMenu">
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Ingresar
+                        </button>
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#registroModal">
+                            Registrarse
+                        </button>
+                    </div>
+                    <div id="loggedInMenu" style="display: none;">
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                                <span id="userName">Usuario</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="showUserPanel()">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="showAdminPanel()" id="adminLink" style="display: none;">Panel Admin</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación de categorías -->
+    <nav class="nav-categories">
+        <div class="container">
+            <div class="d-flex flex-wrap">
+                <a href="#" class="category-link">
+                    <i class="fas fa-laptop me-1"></i>Tecnología
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-chart-line me-1"></i>Marketing
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-utensils me-1"></i>Alimentos
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-hard-hat me-1"></i>Construcción
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-user-tie me-1"></i>Consultoría
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-heart me-1"></i>Salud
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-graduation-cap me-1"></i>Educación
+                </a>
+                <a href="#" class="category-link">
+                    <i class="fas fa-plane me-1"></i>Turismo
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container my-4">
+        <!-- Panel de Usuario (oculto por defecto) -->
+        <div class="user-panel" id="userPanel">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Mi Perfil Empresarial</h2>
+                <button class="btn btn-primary" onclick="editProfile()">
+                    <i class="fas fa-edit me-1"></i>Editar Perfil
+                </button>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img id="profileLogo" class="company-image mb-3" src="" alt="Logo de la empresa">
+                    <h4 id="profileCompanyName">Nombre de Empresa</h4>
+                    <p id="profileIndustry" class="text-muted">Industria</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary" onclick="showConnections()">
+                            <i class="fas fa-handshake me-1"></i>Mis Conexiones
+                        </button>
+                        <button class="btn btn-outline-success" onclick="showMessages()">
+                            <i class="fas fa-envelope me-1"></i>Mensajes
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h5>Información de la Empresa</h5>
+                    <p id="profileDescription">Descripción de la empresa...</p>
+                    
+                    <h5 class="mt-4">Estadísticas</h5>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <h4 id="profileViews">0</h4>
+                                <small>Visitas al perfil</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <h4 id="profileConnections">0</h4>
+                                <small>Conexiones</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 border rounded">
+                                <h4 id="profileDeals">0</h4>
+                                <small>Colaboraciones</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mt-4">Actividad Reciente</h5>
+                    <div id="recentActivity" class="list-group">
+                        <!-- Actividad se cargará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de Administrador (oculto por defecto) -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Panel de Administración</h2>
+                <button class="btn btn-outline-secondary" onclick="showMainContent()">
+                    <i class="fas fa-arrow-left me-1"></i>Volver al Marketplace
+                </button>
+            </div>
+            
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="users">Gestión de Usuarios</div>
+                <div class="admin-tab" data-tab="licenses">Licencias</div>
+                <div class="admin-tab" data-tab="analytics">Analíticas</div>
+            </div>
+            
+            <div class="tab-content active" id="users-tab">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Usuarios Registrados</h4>
+                    <button class="btn btn-success btn-sm" onclick="addUser()">
+                        <i class="fas fa-plus me-1"></i>Agregar Usuario
+                    </button>
+                </div>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Email</th>
+                            <th>Industria</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Los usuarios se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="licenses-tab">
+                <h4>Gestión de Licencias</h4>
+                <p>Aquí puedes gestionar las licencias de los usuarios.</p>
+                <!-- Contenido de gestión de licencias -->
+            </div>
+            
+            <div class="tab-content" id="analytics-tab">
+                <h4>Analíticas de la Plataforma</h4>
+                <p>Estadísticas y métricas de uso de la plataforma.</p>
+                <!-- Contenido de analíticas -->
+            </div>
+        </div>
+
+        <!-- Contenido principal del marketplace (visible por defecto) -->
+        <div id="mainContent">
+            <!-- Banner Publicitario Principal -->
+            <div class="ad-space">
+                <span class="ad-label">PUBLICIDAD</span>
+                <h4 class="mb-2">🚀 ¿Buscas Financiamiento para tu Empresa?</h4>
+                <p class="mb-3">Banco Santander te ofrece créditos para pymes con tasas preferenciales</p>
+                <button class="btn btn-light btn-sm">Solicitar Información</button>
+            </div>
+
+            <!-- Banner Promocional SintoniaB2B -->
+            <div class="promo-banner">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-2">¡Tu Empresa Aquí por Solo $4.970/mes!</h3>
+                        <p class="mb-0">Aparece en el marketplace B2B más grande de Chile y recibe contactos calificados</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#registroModal">
+                            <i class="fas fa-rocket me-2"></i>Registrar Mi Empresa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Sidebar de Filtros COMPLETO -->
+                <div class="col-lg-3">
+                    <div class="filters-sidebar">
+                        <!-- Publicidad Sidebar -->
+                        <div class="ad-space-sidebar">
+                            <h6>📊 ¿Necesitas Contabilidad?</h6>
+                            <p class="small mb-2">Servicio contable especializado para pymes</p>
+                            <button class="btn btn-outline-light btn-sm">Cotizar</button>
+                        </div>
+
+                        <!-- Búsqueda por Ubicación -->
+                        <div class="filter-section">
+                            <div class="filter-title">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Búsqueda de empresas
+                                <span class="selected-count" id="regionCount">0</span>
+                            </div>
+                            
+                            <select class="filter-select" id="filterRegion" onchange="cargarComunas()">
+                                <option value="">Todas las regiones</option>
+                                <option value="arica">XV - Arica y Parinacota</option>
+                                <option value="tarapaca">I - Tarapacá</option>
+                                <option value="antofagasta">II - Antofagasta</option>
+                                <option value="atacama">III - Atacama</option>
+                                <option value="coquimbo">IV - Coquimbo</option>
+                                <option value="valparaiso">V - Valparaíso</option>
+                                <option value="metropolitana">RM - Metropolitana de Santiago</option>
+                                <option value="ohiggins">VI - Libertador B. O'Higgins</option>
+                                <option value="maule">VII - Maule</option>
+                                <option value="nuble">XVI - Ñuble</option>
+                                <option value="biobio">VIII - Biobío</option>
+                                <option value="araucania">IX - La Araucanía</option>
+                                <option value="rios">XIV - Los Ríos</option>
+                                <option value="lagos">X - Los Lagos</option>
+                                <option value="aysen">XI - Aysén</option>
+                                <option value="magallanes">XII - Magallanes</option>
+                            </select>
+                            
+                            <div class="filter-title">
+                                <i class="fas fa-city"></i>
+                                Comunas seleccionadas
+                                <span class="selected-count" id="comunaCount">0</span>
+                            </div>
+                            <div class="comunas-container" id="comunasContainer">
+                                <div class="text-muted text-center py-3">
+                                    <i class="fas fa-arrow-up"></i><br>
+                                    Selecciona una región primero
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por Rubro -->
+                        <div class="filter-section">
+                            <div class="filter-title">
+                                <i class="fas fa-industry"></i>
+                                Rubro comercial
+                                <span class="selected-count" id="rubroCount">0</span>
+                            </div>
+                            <div class="comunas-container">
+                                <div class="comunas-grid">
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-tecnologia" onchange="actualizarContadores()">
+                                        <label for="rubro-tecnologia">Tecnología</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-marketing" onchange="actualizarContadores()">
+                                        <label for="rubro-marketing">Marketing</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-alimentos" onchange="actualizarContadores()">
+                                        <label for="rubro-alimentos">Alimentos</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-consultoria" onchange="actualizarContadores()">
+                                        <label for="rubro-consultoria">Consultoría</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-construccion" onchange="actualizarContadores()">
+                                        <label for="rubro-construccion">Construcción</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-salud" onchange="actualizarContadores()">
+                                        <label for="rubro-salud">Salud</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-educacion" onchange="actualizarContadores()">
+                                        <label for="rubro-educacion">Educación</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="checkbox" class="filter-checkbox" id="rubro-turismo" onchange="actualizarContadores()">
+                                        <label for="rubro-turismo">Turismo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Widget de Valorización -->
+                        <div class="valuation-widget">
+                            <h6><i class="fas fa-star me-2"></i>Empresas Mejor Valoradas</h6>
+                            <div class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" id="filter-toprated" onchange="actualizarContadores()">
+                                <label for="filter-toprated">⭐ 4.5+ estrellas</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" id="filter-success" onchange="actualizarContadores()">
+                                <label for="filter-success">✅ +10 colaboraciones</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" id="filter-responsive" onchange="actualizarContadores()">
+                                <label for="filter-responsive">⚡ Responde en <2h</label>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por Tipo de Colaboración -->
+                        <div class="filter-section">
+                            <div class="filter-title">
+                                <i class="fas fa-handshake"></i>
+                                Tipo de colaboración
+                                <span class="selected-count" id="tipoCount">0</span>
+                            </div>
+                            <div class="comunas-container">
+                                <div class="filter-option">
+                                    <input type="checkbox" class="filter-checkbox" id="type-trueque" onchange="actualizarContadores()">
+                                    <label for="type-trueque">Trueque de servicios</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" class="filter-checkbox" id="type-clientes" onchange="actualizarContadores()">
+                                    <label for="type-clientes">Compartir clientes</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" class="filter-checkbox" id="type-proyectos" onchange="actualizarContadores()">
+                                    <label for="type-proyectos">Proyectos conjuntos</label>
+                                </div>
+                                <div class="filter-option">
+                                    <input type="checkbox" class="filter-checkbox" id="type-consorcio" onchange="actualizarContadores()">
+                                    <label for="type-consorcio">Formar consorcio</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="aplicarFiltros()">
+                                <i class="fas fa-filter me-2"></i>Aplicar Filtros
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="limpiarFiltros()">
+                                <i class="fas fa-times me-2"></i>Limpiar Todo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Empresas -->
+                <div class="col-lg-9">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="results-count">
+                            <strong id="totalEmpresas">0 empresas</strong> encontradas 
+                            <span id="ubicacionFiltro">en todo Chile</span>
+                        </div>
+                        <div>
+                            <select class="form-select form-select-sm" style="width: auto;" onchange="ordenarEmpresas(this.value)">
+                                <option value="relevantes">Más relevantes</option>
+                                <option value="valoradas">Mejor valoradas</option>
+                                <option value="recientes">Más recientes</option>
+                                <option value="exitosas">Más exitosas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Publicidad Intermedia -->
+                    <div class="ad-space" style="background: linear-gradient(135deg, #4facfe, #00f2fe); margin: 20px 0;">
+                        <span class="ad-label">PATROCINADO</span>
+                        <h5 class="mb-2">🛠️ Herramientas para Pymes</h5>
+                        <p class="mb-3">Software de gestión 50% off para usuarios de SintoniaB2B</p>
+                        <button class="btn btn-light btn-sm">Ver Oferta</button>
+                    </div>
+
+                    <!-- Lista de Empresas -->
+                    <div id="empresasList">
+                        <!-- Las empresas se cargarán dinámicamente -->
+                    </div>
+
+                    <!-- Publicidad Final -->
+                    <div class="ad-space" style="background: linear-gradient(135deg, #43e97b, #38f9d7); margin: 20px 0;">
+                        <span class="ad-label">OFERTA ESPECIAL</span>
+                        <h5 class="mb-2">📈 Capacitación para Emprendedores</h5>
+                        <p class="mb-3">Curso "Estrategias de Colaboración B2B" - 40% dcto.</p>
+                        <button class="btn btn-light btn-sm">Inscribirse</button>
+                    </div>
+
+                    <!-- Paginación -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Registro -->
+    <div class="modal fade" id="registroModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Mi Empresa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registroForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre de la Empresa *</label>
+                                    <input type="text" class="form-control" id="regCompanyName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Correo Electrónico *</label>
+                                    <input type="email" class="form-control" id="regEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="regPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirmar Contraseña *</label>
+                                    <input type="password" class="form-control" id="regConfirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Industria *</label>
+                                    <select class="form-select" id="regIndustry" required>
+                                        <option value="">Selecciona una industria</option>
+                                        <option value="tecnologia">Tecnología</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="alimentos">Alimentos</option>
+                                        <option value="construccion">Construcción</option>
+                                        <option value="consultoria">Consultoría</option>
+                                        <option value="salud">Salud</option>
+                                        <option value="educacion">Educación</option>
+                                        <option value="turismo">Turismo</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Logo de la Empresa</label>
+                                    <input type="file" class="form-control" id="regLogo" accept="image/*">
+                                    <div class="form-text">Formatos aceptados: JPG, PNG, GIF (máx. 2MB)</div>
+                                    <img id="logoPreview" class="logo-preview" alt="Vista previa del logo">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción de la Empresa</label>
+                                    <textarea class="form-control" id="regDescription" rows="3" placeholder="Describe los servicios que ofrece tu empresa..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="regTerms" required>
+                            <label class="form-check-label" for="regTerms">
+                                Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Registrar Mi Empresa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Recordarme</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Valoración -->
+    <div class="modal fade" id="valoracionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Valorar Empresa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="valoracionContent">
+                        <!-- Contenido dinámico de valoración -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="ml-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-handshake me-2"></i>SintoniaB2B</h5>
+                    <p class="mt-3">El marketplace líder en Chile para conexiones empresariales B2B. Conectamos empresas para crear sinergias y oportunidades de crecimiento.</p>
+                    <div class="mt-3">
+                        <a href="#" class="text-decoration-none me-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>Empresa</h6>
+                    <a href="#" class="footer-link">Nosotros</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Carreras</a>
+                    <a href="#" class="footer-link">Prensa</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>Recursos</h6>
+                    <a href="#" class="footer-link">Centro de ayuda</a>
+                    <a href="#" class="footer-link">Guías</a>
+                    <a href="#" class="footer-link">Eventos</a>
+                    <a href="#" class="footer-link">Comunidad</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>Legal</h6>
+                    <a href="#" class="footer-link">Privacidad</a>
+                    <a href="#" class="footer-link">Términos</a>
+                    <a href="#" class="footer-link">Seguridad</a>
+                    <a href="#" class="footer-link">Cookies</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>Contacto</h6>
+                    <a href="#" class="footer-link">Soporte</a>
+                    <a href="#" class="footer-link">Ventas</a>
+                    <a href="#" class="footer-link">Partners</a>
+                    <a href="#" class="footer-link">Feedback</a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2023 SintoniaB2B. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">Hecho con ❤️ en Chile</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Base de datos de usuarios y empresas
+        let users = JSON.parse(localStorage.getItem('sintoniaUsers')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let isAdmin = localStorage.getItem('isAdmin') === 'true';
+        
+        // Base de datos completa de comunas por región
+        const comunasPorRegion = {
+            'arica': ['Arica', 'Camarones', 'Putre', 'General Lagos'],
+            'tarapaca': ['Iquique', 'Alto Hospicio', 'Pozo Almonte', 'Camiña', 'Colchane', 'Huara', 'Pica'],
+            'antofagasta': ['Antofagasta', 'Mejillones', 'Sierra Gorda', 'Taltal', 'Calama', 'Ollagüe', 'San Pedro de Atacama', 'Tocopilla', 'María Elena'],
+            'atacama': ['Copiapó', 'Caldera', 'Tierra Amarilla', 'Chañaral', 'Diego de Almagro', 'Vallenar', 'Alto del Carmen', 'Freirina', 'Huasco'],
+            'coquimbo': ['La Serena', 'Coquimbo', 'Andacollo', 'La Higuera', 'Paiguano', 'Vicuña', 'Illapel', 'Canela', 'Los Vilos', 'Salamanca', 'Ovalle', 'Combarbalá', 'Monte Patria', 'Punitaqui', 'Río Hurtado'],
+            'valparaiso': ['Valparaíso', 'Casablanca', 'Concón', 'Juan Fernández', 'Puchuncaví', 'Quintero', 'Viña del Mar', 'Isla de Pascua', 'Los Andes', 'Calle Larga', 'Rinconada', 'San Esteban', 'La Ligua', 'Cabildo', 'Papudo', 'Petorca', 'Zapallar', 'Quillota', 'Calera', 'Hijuelas', 'La Cruz', 'Nogales', 'San Antonio', 'Algarrobo', 'Cartagena', 'El Quisco', 'El Tabo', 'Santo Domingo', 'San Felipe', 'Catemu', 'Llaillay', 'Panquehue', 'Putaendo', 'Santa María', 'Quilpué', 'Limache', 'Olmué', 'Villa Alemana'],
+            'metropolitana': ['Santiago', 'Cerrillos', 'Cerro Navia', 'Conchalí', 'El Bosque', 'Estación Central', 'Huechuraba', 'Independencia', 'La Cisterna', 'La Florida', 'La Granja', 'La Pintana', 'La Reina', 'Las Condes', 'Lo Barnechea', 'Lo Espejo', 'Lo Prado', 'Macul', 'Maipú', 'Ñuñoa', 'Pedro Aguirre Cerda', 'Peñalolén', 'Providencia', 'Pudahuel', 'Quilicura', 'Quinta Normal', 'Recoleta', 'Renca', 'San Joaquín', 'San Miguel', 'San Ramón', 'Vitacura', 'Puente Alto', 'Pirque', 'San José de Maipo', 'Colina', 'Lampa', 'Tiltil', 'San Bernardo', 'Buin', 'Calera de Tango', 'Paine', 'Melipilla', 'Alhué', 'Curacaví', 'María Pinto', 'San Pedro', 'Talagante', 'El Monte', 'Isla de Maipo', 'Padre Hurtado', 'Peñaflor'],
+            'ohiggins': ['Rancagua', 'Codegua', 'Coinco', 'Coltauco', 'Doñihue', 'Graneros', 'Las Cabras', 'Machalí', 'Malloa', 'Mostazal', 'Olivar', 'Peumo', 'Pichidegua', 'Quinta de Tilcoco', 'Rengo', 'Requínoa', 'San Vicente', 'Pichilemu', 'La Estrella', 'Litueche', 'Marchihue', 'Navidad', 'Paredones', 'San Fernando', 'Chépica', 'Chimbarongo', 'Lolol', 'Nancagua', 'Palmilla', 'Peralillo', 'Placilla', 'Pumanque', 'Santa Cruz'],
+            'maule': ['Talca', 'Constitución', 'Curepto', 'Empedrado', 'Maule', 'Pelarco', 'Pencahue', 'Río Claro', 'San Clemente', 'San Rafael', 'Cauquenes', 'Chanco', 'Pelluhue', 'Curicó', 'Hualañé', 'Licantén', 'Molina', 'Rauco', 'Romeral', 'Sagrada Familia', 'Teno', 'Vichuquén', 'Linares', 'Colbún', 'Longaví', 'Parral', 'Retiro', 'San Javier', 'Villa Alegre', 'Yerbas Buenas'],
+            'nuble': ['Chillán', 'Bulnes', 'Chillán Viejo', 'El Carmen', 'Pemuco', 'Pinto', 'Quillón', 'San Ignacio', 'Yungay', 'Quirihue', 'Cobquecura', 'Coelemu', 'Ninhue', 'Portezuelo', 'Ránquil', 'Treguaco', 'San Carlos', 'Coihueco', 'Ñiquén', 'San Fabián', 'San Nicolás'],
+            'biobio': ['Concepción', 'Coronel', 'Chiguayante', 'Florida', 'Hualpén', 'Hualqui', 'Lota', 'Penco', 'San Pedro de la Paz', 'Santa Juana', 'Talcahuano', 'Tomé', 'Los Ángeles', 'Antuco', 'Cabrero', 'Laja', 'Mulchén', 'Nacimiento', 'Negrete', 'Quilaco', 'Quilleco', 'San Rosendo', 'Santa Bárbara', 'Tucapel', 'Yumbel', 'Alto Biobío', 'Lebú', 'Arauco', 'Cañete', 'Contulmo', 'Curanilahue', 'Los Álamos', 'Tirúa'],
+            'araucania': ['Temuco', 'Carahue', 'Cunco', 'Curarrehue', 'Freire', 'Galvarino', 'Gorbea', 'Lautaro', 'Loncoche', 'Melipeuco', 'Nueva Imperial', 'Padre las Casas', 'Perquenco', 'Pitrufquén', 'Pucón', 'Saavedra', 'Teodoro Schmidt', 'Toltén', 'Vilcún', 'Villarrica', 'Cholchol', 'Angol', 'Collipulli', 'Curacautín', 'Ercilla', 'Lonquimay', 'Los Sauces', 'Lumaco', 'Purén', 'Renaico', 'Traiguén', 'Victoria'],
+            'rios': ['Valdivia', 'Corral', 'Lanco', 'Los Lagos', 'Máfil', 'Mariquina', 'Paillaco', 'Panguipulli', 'La Unión', 'Futrono', 'Lago Ranco', 'Río Bueno'],
+            'lagos': ['Puerto Montt', 'Calbuco', 'Cochamó', 'Fresia', 'Frutillar', 'Los Muermos', 'Llanquihue', 'Maullín', 'Puerto Varas', 'Castro', 'Ancud', 'Chonchi', 'Curaco de Vélez', 'Dalcahue', 'Puqueldón', 'Queilén', 'Quellón', 'Quemchi', 'Quinchao', 'Osorno', 'Puerto Octay', 'Purranque', 'Puyehue', 'Río Negro', 'San Juan de la Costa', 'San Pablo', 'Chaitén', 'Futaleufú', 'Hualaihué', 'Palena'],
+            'aysen': ['Coyhaique', 'Lago Verde', 'Aysén', 'Cisnes', 'Guaitecas', 'Cochrane', 'O\'Higgins', 'Tortel', 'Chile Chico', 'Río Ibáñez'],
+            'magallanes': ['Punta Arenas', 'Laguna Blanca', 'Río Verde', 'San Gregorio', 'Cabo de Hornos', 'Antártica', 'Porvenir', 'Primavera', 'Timaukel', 'Natales', 'Torres del Paine']
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarContadores();
+            cargarEmpresas();
+            checkLoginStatus();
+            
+            // Configurar vista previa del logo
+            document.getElementById('regLogo').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('logoPreview').src = e.target.result;
+                        document.getElementById('logoPreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Configurar formularios
+            document.getElementById('registroForm').addEventListener('submit', handleRegister);
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Configurar tabs del admin
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remover clase active de todas las pestañas y contenidos
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Agregar clase active a la pestaña y contenido seleccionados
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        });
+
+        // Verificar estado de login
+        function checkLoginStatus() {
+            if (currentUser) {
+                document.getElementById('userMenu').style.display = 'none';
+                document.getElementById('loggedInMenu').style.display = 'block';
+                document.getElementById('userName').textContent = currentUser.companyName;
+                
+                if (isAdmin) {
+                    document.getElementById('adminLink').style.display = 'block';
+                }
+            } else {
+                document.getElementById('userMenu').style.display = 'block';
+                document.getElementById('loggedInMenu').style.display = 'none';
+            }
+        }
+
+        // Manejar registro
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('regCompanyName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const industry = document.getElementById('regIndustry').value;
+            const description = document.getElementById('regDescription').value;
+            const logo = document.getElementById('logoPreview').src;
+            
+            // Validaciones
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+            
+            // Verificar si el usuario ya existe
+            if (users.find(user => user.email === email)) {
+                alert('Ya existe un usuario con este correo electrónico.');
+                return;
+            }
+            
+            // Crear nuevo usuario
+            const newUser = {
+                id: Date.now(),
+                companyName,
+                email,
+                password, // En una aplicación real, esto debería estar encriptado
+                industry,
+                description,
+                logo: logo || '',
+                connections: [],
+                deals: 0,
+                views: 0,
+                rating: 0,
+                registrationDate: new Date().toISOString(),
+                isAdmin: email === 'admin@sintoniab2b.com' // Simular admin
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('sintoniaUsers', JSON.stringify(users));
+            
+            // Iniciar sesión automáticamente
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('isAdmin', newUser.isAdmin);
+            isAdmin = newUser.isAdmin;
+            
+            // Cerrar modal y actualizar interfaz
+            bootstrap.Modal.getInstance(document.getElementById('registroModal')).hide();
+            checkLoginStatus();
+            
+            // Recargar empresas para mostrar la nueva
+            cargarEmpresas();
+            
+            // Mostrar mensaje de bienvenida
+            showWelcomeMessage();
+        }
+
+        // Manejar login
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Verificar credenciales
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem('isAdmin', user.isAdmin);
+                isAdmin = user.isAdmin;
+                
+                // Cerrar modal y actualizar interfaz
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                checkLoginStatus();
+                alert(`¡Bienvenido de nuevo, ${user.companyName}!`);
+            } else {
+                alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+            }
+        }
+
+        // Cerrar sesión
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isAdmin');
+            isAdmin = false;
+            
+            checkLoginStatus();
+            showMainContent();
+            alert('Has cerrado sesión correctamente.');
+        }
+
+        // Mostrar panel de usuario
+        function showUserPanel() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('userPanel').style.display = 'block';
+            
+            // Actualizar información del usuario
+            if (currentUser) {
+                document.getElementById('profileCompanyName').textContent = currentUser.companyName;
+                document.getElementById('profileIndustry').textContent = currentUser.industry;
+                document.getElementById('profileDescription').textContent = currentUser.description || 'Sin descripción';
+                document.getElementById('profileViews').textContent = currentUser.views || 0;
+                document.getElementById('profileConnections').textContent = currentUser.connections ? currentUser.connections.length : 0;
+                document.getElementById('profileDeals').textContent = currentUser.deals || 0;
+                
+                if (currentUser.logo) {
+                    document.getElementById('profileLogo').src = currentUser.logo;
+                }
+                
+                // Cargar actividad reciente
+                loadRecentActivity();
+            }
+        }
+
+        // Mostrar panel de administrador
+        function showAdminPanel() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('userPanel').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            // Cargar usuarios en la tabla
+            loadUsersTable();
+        }
+
+        // Mostrar contenido principal
+        function showMainContent() {
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('userPanel').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        // Cargar usuarios en la tabla del admin
+        function loadUsersTable() {
+            const usersTableBody = document.getElementById('usersTableBody');
+            usersTableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.companyName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.industry}</td>
+                    <td><span class="badge bg-success">Activo</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="editUser(${user.id})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Eliminar</button>
+                    </td>
+                `;
+                usersTableBody.appendChild(row);
+            });
+        }
+
+        // Cargar actividad reciente
+        function loadRecentActivity() {
+            const activityContainer = document.getElementById('recentActivity');
+            activityContainer.innerHTML = '';
+            
+            // Actividad de ejemplo
+            const activities = [
+                { type: 'connection', text: 'Te conectaste con MarketingPro Chile', date: 'Hace 2 días' },
+                { type: 'view', text: 'Tu perfil fue visto 15 veces', date: 'Hace 3 días' },
+                { type: 'deal', text: 'Completaste un trueque con TechSolutions', date: 'Hace 1 semana' }
+            ];
+            
+            activities.forEach(activity => {
+                const item = document.createElement('div');
+                item.className = 'list-group-item';
+                item.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">${activity.text}</p>
+                        <small class="text-muted">${activity.date}</small>
+                    </div>
+                `;
+                activityContainer.appendChild(item);
+            });
+        }
+
+        // Cargar empresas en el marketplace
+        function cargarEmpresas() {
+            const empresasList = document.getElementById('empresasList');
+            empresasList.innerHTML = '';
+            
+            // Actualizar contador de empresas
+            document.getElementById('totalEmpresas').textContent = `${users.length} empresas`;
+            
+            if (users.length === 0) {
+                empresasList.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-building fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Aún no hay empresas registradas</h4>
+                        <p class="text-muted">Sé el primero en registrar tu empresa y comienza a conectar con otras empresas.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroModal">
+                            <i class="fas fa-rocket me-2"></i>Registrar Mi Empresa
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            users.forEach(user => {
+                // Generar datos aleatorios para demostración
+                const rating = (Math.random() * 1 + 4).toFixed(1); // Entre 4.0 y 5.0
+                const tratos = Math.floor(Math.random() * 20) + 5; // Entre 5 y 25
+                const visits = Math.floor(Math.random() * 200) + 50; // Entre 50 y 250
+                const reviews = Math.floor(Math.random() * 40) + 10; // Entre 10 y 50
+                const responseTime = Math.floor(Math.random() * 3) + 1; // 1, 2 o 3 horas
+                
+                const empresaHTML = `
+                    <div class="company-card-ml" data-region="metropolitana" data-comuna="santiago" data-rating="${rating}" data-deals="${tratos}">
+                        <div class="row">
+                            <div class="col-md-2 text-center">
+                                ${user.logo ? 
+                                    `<img src="${user.logo}" class="company-image mx-auto mb-3" alt="${user.companyName}">` :
+                                    `<div class="company-image mx-auto mb-3">${user.companyName.substring(0, 2)}</div>`
+                                }
+                                <span class="badge badge-premium">Premium</span>
+                            </div>
+                            <div class="col-md-7">
+                                <h3 class="company-title">${user.companyName}
+                                    <span class="valuation-badge">⭐ ${rating}</span>
+                                    <span class="valuation-badge" style="background: var(--success-color);">✅ ${tratos} tratos</span>
+                                </h3>
+                                <p class="company-description">${user.description || 'Empresa registrada en SintoniaB2B. Descripción no disponible.'}</p>
+                                <div class="company-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-eye"></i>
+                                        <span>${visits} visitas</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-handshake"></i>
+                                        <span>${tratos} colaboraciones</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-star"></i>
+                                        <span>${rating} (${reviews} reviews)</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Historial de Tratos Recientes -->
+                                <div class="deal-history">
+                                    <h6>🤝 Tratos Recientes</h6>
+                                    <div class="deal-item">
+                                        <span>Empresa Colaboradora 1</span>
+                                        <small class="text-muted">Trueque • $${Math.floor(Math.random() * 3 + 1)}.${Math.floor(Math.random() * 9)}M</small>
+                                    </div>
+                                    <div class="deal-item">
+                                        <span>Empresa Colaboradora 2</span>
+                                        <small class="text-muted">Proyecto conjunto • $${Math.floor(Math.random() * 2 + 1)}.${Math.floor(Math.random() * 9)}M</small>
+                                    </div>
+                                </div>
+
+                                <div class="company-tags">
+                                    <span class="company-badge-ml">${user.industry}</span>
+                                    <span class="company-badge-ml" style="background: #666;">Santiago, RM</span>
+                                    <span class="company-badge-ml" style="background: #00a650;">Trueque</span>
+                                    <span class="company-badge-ml" style="background: #ff7733;">Proyectos</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button class="btn contact-button-ml w-100 mb-2" onclick="verEmpresa(${user.id})">
+                                    <i class="fas fa-eye me-1"></i>Ver Perfil
+                                </button>
+                                <button class="btn btn-outline-primary w-100" onclick="contactarEmpresa(${user.id})">
+                                    <i class="fas fa-envelope me-1"></i>Contactar
+                                </button>
+                                <div class="mt-2">
+                                    <small class="text-muted">Responde en ${responseTime} hora${responseTime > 1 ? 's' : ''}</small>
+                                </div>
+                                <button class="btn btn-outline-success w-100 mt-2" onclick="valorarEmpresa(${user.id})">
+                                    <i class="fas fa-star me-1"></i>Valorar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                empresasList.innerHTML += empresaHTML;
+            });
+        }
+
+        // Funciones auxiliares
+        function cargarComunas() {
+            const regionSelect = document.getElementById('filterRegion');
+            const comunasContainer = document.getElementById('comunasContainer');
+            const regionSeleccionada = regionSelect.value;
+
+            comunasContainer.innerHTML = '';
+
+            if (!regionSeleccionada) {
+                comunasContainer.innerHTML = `
+                    <div class="text-muted text-center py-3">
+                        <i class="fas fa-arrow-up fa-2x mb-2"></i><br>
+                        Selecciona una región primero
+                    </div>
+                `;
+                return;
+            }
+
+            const comunas = comunasPorRegion[regionSeleccionada];
+            const regionNombre = regionSelect.options[regionSelect.selectedIndex].text;
+            
+            if (comunas && comunas.length > 0) {
+                const grid = document.createElement('div');
+                grid.className = 'comunas-grid';
+                
+                comunas.forEach(comuna => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'filter-option';
+                    optionDiv.innerHTML = `
+                        <input type="checkbox" class="filter-checkbox comuna-checkbox" 
+                               id="comuna-${comuna.toLowerCase().replace(/\s+/g, '-')}" 
+                               value="${comuna}"
+                               onchange="actualizarContadores()">
+                        <label for="comuna-${comuna.toLowerCase().replace(/\s+/g, '-')}">${comuna}</label>
+                    `;
+                    grid.appendChild(optionDiv);
+                });
+                
+                comunasContainer.appendChild(grid);
+                
+                // Agregar opción "Todas las comunas"
+                const todasDiv = document.createElement('div');
+                todasDiv.className = 'filter-option';
+                todasDiv.innerHTML = `
+                    <input type="checkbox" class="filter-checkbox" id="todas-comunas" onchange="seleccionarTodasComunas()">
+                    <label for="todas-comunas"><strong>Seleccionar todas las comunas</strong></label>
+                `;
+                comunasContainer.insertBefore(todasDiv, grid);
+            }
+            
+            actualizarContadores();
+        }
+
+        function seleccionarTodasComunas() {
+            const todasCheckbox = document.getElementById('todas-comunas');
+            const comunasCheckboxes = document.querySelectorAll('.comuna-checkbox');
+            
+            comunasCheckboxes.forEach(checkbox => {
+                checkbox.checked = todasCheckbox.checked;
+            });
+            
+            actualizarContadores();
+        }
+
+        function actualizarContadores() {
+            // Contador de comunas
+            const comunasSeleccionadas = document.querySelectorAll('.comuna-checkbox:checked').length;
+            document.getElementById('comunaCount').textContent = comunasSeleccionadas;
+            
+            // Contador de rubros
+            const rubrosSeleccionados = document.querySelectorAll('input[class="filter-checkbox"]:checked:not(.comuna-checkbox):not(#todas-comunas)').length;
+            document.getElementById('rubroCount').textContent = rubrosSeleccionados;
+            
+            // Contador de tipos
+            const tiposSeleccionados = document.querySelectorAll('input[id^="type-"]:checked').length;
+            document.getElementById('tipoCount').textContent = tiposSeleccionados;
+        }
+
+        function aplicarFiltros() {
+            const regionSelect = document.getElementById('filterRegion');
+            const regionSeleccionada = regionSelect.options[regionSelect.selectedIndex].text;
+            const comunasSeleccionadas = document.querySelectorAll('.comuna-checkbox:checked');
+            
+            let ubicacionTexto = 'en todo Chile';
+            
+            if (regionSeleccionada && regionSeleccionada !== 'Todas las regiones') {
+                if (comunasSeleccionadas.length > 0) {
+                    const comunasNombres = Array.from(comunasSeleccionadas).map(c => c.value).join(', ');
+                    ubicacionTexto = `en ${comunasNombres}`;
+                } else {
+                    ubicacionTexto = `en ${regionSeleccionada}`;
+                }
+            }
+            
+            document.getElementById('ubicacionFiltro').textContent = ubicacionTexto;
+            
+            // Simular filtrado
+            const totalCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const nuevasEmpresas = Math.max(1, users.length - (totalCheckboxes * 2));
+            document.getElementById('totalEmpresas').textContent = `${nuevasEmpresas} empresas`;
+            
+            alert(`Filtros aplicados:\n- Región: ${regionSeleccionada || 'Todas'}\n- Comunas: ${comunasSeleccionadas.length} seleccionadas\n- Rubros: ${document.getElementById('rubroCount').textContent}\n- Tipos: ${document.getElementById('tipoCount').textContent}`);
+        }
+
+        function limpiarFiltros() {
+            // Limpiar checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Limpiar select de región
+            document.getElementById('filterRegion').value = '';
+            
+            // Limpiar contenedor de comunas
+            document.getElementById('comunasContainer').innerHTML = `
+                <div class="text-muted text-center py-3">
+                    <i class="fas fa-arrow-up"></i><br>
+                    Selecciona una región primero
+                </div>
+            `;
+            
+            // Resetear contadores
+            document.getElementById('comunaCount').textContent = '0';
+            document.getElementById('rubroCount').textContent = '0';
+            document.getElementById('tipoCount').textContent = '0';
+            document.getElementById('ubicacionFiltro').textContent = 'en todo Chile';
+            document.getElementById('totalEmpresas').textContent = `${users.length} empresas`;
+            
+            alert('Todos los filtros han sido limpiados');
+        }
+
+        function valorarEmpresa(id) {
+            const user = users.find(u => u.id === id);
+            const modalContent = document.getElementById('valoracionContent');
+            
+            modalContent.innerHTML = `
+                <h6>Valorar a: ${user.companyName}</h6>
+                <div class="mb-3">
+                    <label class="form-label">Calificación (1-5 estrellas)</label>
+                    <div class="d-flex gap-1 mb-2">
+                        ${[1,2,3,4,5].map(star => `
+                            <i class="fas fa-star text-warning" style="cursor: pointer; font-size: 1.5rem;" 
+                               onclick="seleccionarEstrella(${star})" id="star-${star}"></i>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Comentario</label>
+                    <textarea class="form-control" rows="3" placeholder="Comparte tu experiencia..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tipo de colaboración</label>
+                    <select class="form-select">
+                        <option>Trueque</option>
+                        <option>Compartir clientes</option>
+                        <option>Proyecto conjunto</option>
+                        <option>Otro</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Valor estimado (opcional)</label>
+                    <input type="number" class="form-control" placeholder="Ej: 1000000">
+                </div>
+                <button class="btn btn-success w-100" onclick="enviarValoracion(${id})">
+                    <i class="fas fa-check me-2"></i>Enviar Valoración
+                </button>
+            `;
+
+            const modal = new bootstrap.Modal(document.getElementById('valoracionModal'));
+            modal.show();
+        }
+
+        function seleccionarEstrella(rating) {
+            // Reset todas las estrellas
+            for (let i = 1; i <= 5; i++) {
+                const star = document.getElementById(`star-${i}`);
+                if (i <= rating) {
+                    star.classList.add('text-warning');
+                    star.classList.remove('text-muted');
+                } else {
+                    star.classList.remove('text-warning');
+                    star.classList.add('text-muted');
+                }
+            }
+        }
+
+        function enviarValoracion(id) {
+            alert('¡Valoración enviada con éxito! Tu opinión ayuda a otras empresas.');
+            bootstrap.Modal.getInstance(document.getElementById('valoracionModal')).hide();
+        }
+
+        function ordenarEmpresas(criterio) {
+            const empresas = document.querySelectorAll('.company-card-ml');
+            const empresasArray = Array.from(empresas);
+
+            empresasArray.sort((a, b) => {
+                switch(criterio) {
+                    case 'valoradas':
+                        return parseFloat(b.getAttribute('data-rating')) - parseFloat(a.getAttribute('data-rating'));
+                    case 'exitosas':
+                        return parseInt(b.getAttribute('data-deals')) - parseInt(a.getAttribute('data-deals'));
+                    case 'recientes':
+                        return Math.random() - 0.5; // Simular orden por fecha
+                    default:
+                        return 0;
+                }
+            });
+
+            const container = document.getElementById('empresasList');
+            container.innerHTML = '';
+            empresasArray.forEach(empresa => container.appendChild(empresa));
+        }
+
+        function verEmpresa(id) {
+            const user = users.find(u => u.id === id);
+            alert(`Redirigiendo al perfil de: ${user.companyName}`);
+        }
+
+        function contactarEmpresa(id) {
+            if (!currentUser) {
+                const modalHTML = `
+                    <div class="modal fade" id="contactModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Contactar Empresa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Para contactar a esta empresa, necesitas tener una cuenta en SintoniaB2B.</p>
+                                    <div class="alert alert-warning">
+                                        <strong>Beneficios de registrarte:</strong>
+                                        <ul class="mt-2 mb-0">
+                                            <li>Acceso a información de contacto completa</li>
+                                            <li>Sistema de mensajería integrado</li>
+                                            <li>Seguimiento de conversaciones</li>
+                                            <li>2 convenios gratuitos</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#registroModal">
+                                            Crear Cuenta
+                                        </button>
+                                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                            Ya Tengo Cuenta
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                const modal = new bootstrap.Modal(document.getElementById('contactModal'));
+                modal.show();
+
+                document.getElementById('contactModal').addEventListener('hidden.bs.modal', function() {
+                    this.remove();
+                });
+            } else {
+                alert('Funcionalidad de contacto en desarrollo. Pronto podrás contactar a esta empresa directamente.');
+            }
+        }
+
+        // Funciones para el panel de administrador
+        function addUser() {
+            alert('Funcionalidad para agregar usuario en desarrollo');
+        }
+
+        function editUser(id) {
+            alert(`Funcionalidad para editar usuario ${id} en desarrollo`);
+        }
+
+        function deleteUser(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+                users = users.filter(user => user.id !== id);
+                localStorage.setItem('sintoniaUsers', JSON.stringify(users));
+                loadUsersTable();
+                cargarEmpresas(); // Actualizar la lista de empresas
+                alert('Usuario eliminado correctamente');
+            }
+        }
+
+        // Funciones para el panel de usuario
+        function editProfile() {
+            alert('Funcionalidad de edición de perfil en desarrollo');
+        }
+
+        function showConnections() {
+            alert('Funcionalidad de conexiones en desarrollo');
+        }
+
+        function showMessages() {
+            alert('Funcionalidad de mensajes en desarrollo');
+        }
+
+        // Mostrar mensaje de bienvenida
+        function showWelcomeMessage() {
+            const welcomeHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <h4 class="alert-heading">¡Bienvenido a SintoniaB2B!</h4>
+                    <p>Tu empresa ha sido registrada exitosamente. Ahora puedes:</p>
+                    <ul>
+                        <li>Completar tu perfil empresarial</li>
+                        <li>Explorar y contactar otras empresas</li>
+                        <li>Recibir ofertas de colaboración</li>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            document.getElementById('mainContent').insertAdjacentHTML('afterbegin', welcomeHTML);
+        }
+    </script>
+</body>
+</html>
